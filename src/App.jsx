@@ -33,12 +33,21 @@ const api = {
   isLive: () => !!localStorage.getItem('yama_api_url'),
 
   getMovies: async () => {
-    if (api.isLive()) {
-      const res = await fetch(`${api.getBaseUrl()}/movies`);
-      return res.json();
+    try {
+      if (api.isLive()) {
+        const res = await fetch(`${api.getBaseUrl()}/movies`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        // Safety check: Ensure we actually got an array
+        return Array.isArray(data) ? data : [];
+      }
+      // Mock Data for Preview
+      const stored = localStorage.getItem('yama_movies');
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error("API Fetch Error:", e);
+      return []; // Return empty array on failure to prevent app crash
     }
-    const stored = localStorage.getItem('yama_movies');
-    return stored ? JSON.parse(stored) : [];
   },
 
   saveMovie: async (movie) => {
