@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 
 // --- API CONFIGURATION ---
-const DEFAULT_API_URL = "https://yama-backend-3ui0.onrender.com/api"; 
+const DEFAULT_API_URL = "https://your-yama-backend.onrender.com/api"; 
 
 // --- GEMINI API SETUP ---
 const apiKey = ""; 
